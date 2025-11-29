@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đếm ngày từ 1/1/2024</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px 60px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        }
+
+        p {
+            font-size: 1.3rem;
+            margin: 8px 0;
+            opacity: 0.9;
+        }
+
+        .count {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 3px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .details {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            opacity: 0.85;
+        }
+
+        .label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-top: 30px;
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Đã trôi qua</h1>
+        <div class="count" id="days">0</div>
+        <p>ngày</p>
+        
+        <div class="details">
+            <span id="hours">00</span> giờ 
+            <span id="minutes">00</span> phút 
+            <span id="seconds">00</span> giây
+        </div>
+
+        <span class="label">Từ ngày <strong>01/01/2024</strong> đến hôm nay</span>
+    </div>
+
+    <script>
+        // Ngày bắt đầu
+        const startDate = new Date('2024-01-01T00:00:00');
+
+        function updateCounter() {
+            const now = new Date();
+            
+            // Tính chênh lệch theo mili giây
+            const diff = now - startDate;
+
+            // Chuyển đổi sang ngày, giờ, phút, giây
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Cập nhật lên giao diện
+            document.getElementById('days').textContent = days.toLocaleString('vi-VN');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Cập nhật ngay lập tức và mỗi giây
+        updateCounter();
+        setInterval(updateCounter, 1000);
+
+        // Hiệu ứng ngôi sao lấp lánh (tùy chọn)
+        setInterval(() => {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 3000);
+        }, 500);
+    </script>
+</body>
+</html>
